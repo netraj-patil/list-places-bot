@@ -1,0 +1,6 @@
+folium
+requests
+fastapi
+pydantic[dotenv]
+uvicorn
+python-dotenv
