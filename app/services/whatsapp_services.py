@@ -21,17 +21,33 @@ async def send_whatsapp_message(to_phone_number: str, message_text: str, phone_n
         "Authorization": f"Bearer {WHATSAPP_ACCESS_TOKEN}",
         "Content-Type": "application/json"
     }
-    payload= {
-        "messaging_product" : "whatsapp",
+
+    # payload = {
+    #     "messaging_product": "whatsapp",
+    #     "to": to_phone_number,
+    #     "type": "template",
+    #     "template": {
+    #         "name": "hello_world",
+    #         "language": {
+    #             "code": "en_US"
+    #         }
+    #     }
+    # }
+
+    payload = {
+        "messaging_product": "whatsapp",
         "to": to_phone_number,
         "type": "text",
-        "text" : {
-            "body": message_text
+        "text": {
+            "preview_url": True,
+            "body": "hello_world"
         }
     }
 
     try:
         response = requests.post(url=url, headers=headers, json=payload)
+        logger.info(f"response status : {response.status_code}")
+        logger.info(f"response text : {response.text}")
         response.raise_for_status()
         return True
     except Exception as e:

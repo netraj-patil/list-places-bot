@@ -1,11 +1,14 @@
 from daftlistings.daftlistings import Daft, SortType
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
+from fastapi.responses import JSONResponse
 from datetime import datetime
 import os
 from dotenv import load_dotenv
+import json
 
 from app.services.app_state import get_last_api_timestamp, getLocation, getDistance, set_last_api_timestamp
 from app.services.whatsapp_services import send_whatsapp_message
+from app.services.telegram_services import send_telegram_message
 from app.utils.logging_decorator import logger, logging_decorator
 
 load_dotenv()
@@ -14,6 +17,7 @@ router = APIRouter(prefix="/daft_route", tags=["Daft Routes"])
 
 PHONE_NUMBER_ID = os.getenv("PHONE_NUMBER_ID")
 RECIPIENT_PHONE_NUMBERS = os.getenv("RECIPIENT_PHONE_NUMBERS")
+RECIPIENT_PHONE_NUMBERS = json.loads(RECIPIENT_PHONE_NUMBERS)
 
 @logging_decorator
 def postings_after_timestamp():
@@ -69,6 +73,9 @@ def get_recent_postings():
                 Published Time : {result['published_time']}
                 URL : {result['url']}
             """
+            # code to send messages via whatsapp
+            # for to_phone_number in RECIPIENT_PHONE_NUMBERS:
+            #     send_whatsapp_message(to_phone_number=to_phone_number, message_text=message, phone_number_id=PHONE_NUMBER_ID)
 
-            for to_phone_number in RECIPIENT_PHONE_NUMBERS:
-                send_whatsapp_message(to_phone_number=to_phone_number, message_text=message, phone_number_id=PHONE_NUMBER_ID)
+            # code to send messages via telegram
+            send_telegram_message(message=message)
