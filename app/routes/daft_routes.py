@@ -54,7 +54,7 @@ def postings_after_timestamp():
 
 @router.get("/get_recent_postings")
 @logging_decorator
-def get_recent_postings():
+async def get_recent_postings():
     if not RECIPIENT_PHONE_NUMBERS:
         logger.warning("Recipient phone numbers not found")
         raise ValueError("Recipient phone numbers not found")
@@ -75,7 +75,7 @@ def get_recent_postings():
             """
             # code to send messages via whatsapp
             # for to_phone_number in RECIPIENT_PHONE_NUMBERS:
-            #     send_whatsapp_message(to_phone_number=to_phone_number, message_text=message, phone_number_id=PHONE_NUMBER_ID)
+            #     await send_whatsapp_message(to_phone_number=to_phone_number, message_text=message, phone_number_id=PHONE_NUMBER_ID)
 
             # code to send messages via telegram
-            send_telegram_message(message=message)
+            await send_telegram_message(message=message)
