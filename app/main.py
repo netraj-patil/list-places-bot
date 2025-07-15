@@ -14,6 +14,14 @@ app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
 set_last_api_timestamp(datetime.now())
 addLocation(Location.NEWCASTLE_GALWAY)
+addLocation(Location.RAHOON_GALWAY)
+addLocation(Location.SHANTALLA_GALWAY)
+addLocation(Location.SALTHILL_GALWAY)
+addLocation(Location.TERRYLAND_GALWAY)
+addLocation(Location.RENMORE_GALWAY)
+addLocation(Location.BALLYBANE_GALWAY)
+addLocation(Location.KNOCKNACARRA_GALWAY)
+
 setDistance(Distance.KM5)
 
 app.include_router(daft_routes.router)
