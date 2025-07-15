@@ -33,10 +33,16 @@ def postings_after_timestamp():
 
     results = []
 
-    date_format = "%Y-%m-%d %H:%M:%S.%f"
-
     for listing in listings:
-        publish_datetime = datetime.strptime(listing.publish_date, date_format)
+        try:
+            date_format = "%Y-%m-%d %H:%M:%S.%f"
+            publish_datetime = datetime.strptime(listing.publish_date, date_format)
+        except ValueError:
+            date_format = "%Y-%m-%d %H:%M:%S"
+            publish_datetime = datetime.strptime(listing.publish_date, date_format)
+        except Exception as e:
+            logger.error(f"An error occurred while parsing date time: {e}")
+            raise
         if publish_datetime < last_api_timestamp:
             break
         results.append(
